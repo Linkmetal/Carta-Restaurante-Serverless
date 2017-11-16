@@ -36,7 +36,7 @@ function init() {
     }
 
     document.getElementById("mainContainer").appendChild(node);
-
+    
     initListeners();
     loadMenu();
 }
@@ -48,6 +48,16 @@ function initListeners() {
         selectedColor = this;
         selectedColor.className = "color selectedColor";
     }, false));
+
+    let aux = document.querySelector(".textBox").addEventListener("keypress", function(e){
+        //var key = e.wich || e.keycode;
+        if(e.key === 'Enter'){
+            addDish(this.value);
+            var menu = document.getElementById("menu");
+            this.value = "";
+        }
+    }, false);
+    
 }
 
 function loadMenu(){
@@ -55,12 +65,12 @@ function loadMenu(){
     menu.id = "menu";
 
     document.getElementById("mainContainer").appendChild(menu);
-    addDish();
-    addDish();
+    addDish("nfoiwnqiof");
+    addDish("jfopwqnpofw");
     
 }
 
-function addDish(){
+function addDish(name){
     let dish = document.createElement("div");
     dish.className = "dish";
     //dish.textContent = "Papas con mojo";
@@ -72,12 +82,11 @@ function addDish(){
     
     let text = document.createElement("span");
     text.className = "dishName";
-    text.textContent = "Papas con mojo";
+    text.textContent = name;
     
     dish.appendChild(check);
     dish.appendChild(text);
     
     document.getElementById("menu").appendChild(dish);
-    
-
 }
+
