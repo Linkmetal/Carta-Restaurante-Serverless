@@ -33,6 +33,8 @@ p{
     resize: none;
     border-radius: 20px;
     border: solid thin grey;
+    border: solid thin #3c56aa;
+    
 }
 
 .textArea:focus{
@@ -80,4 +82,36 @@ p{
 
 .button:nth-child(n+2){
     margin-left: 5%;
+}
+
+#menu{
+    width: 75%;
+    margin-left: 12.5%;
+    margin-top: 1%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+.dish{
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    height: 3.5vw;
+    justify-content: flex-start;
+    padding-top: 1.5%;
+    padding-left: 1%;
+    margin-bottom: 0.5%;
+    border: solid thin black;
+}
+
+.dish > input{
+    transform: scale(2);
+}
+
+.dishName{
+    margin-top: -0.5%;
+    font-size: 200%;
+    margin-left: 1%;
 }
