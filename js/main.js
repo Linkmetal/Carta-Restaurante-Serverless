@@ -1,5 +1,6 @@
 function init() {
     let colors = ["blue", "red", "pink", "yellow"];
+    let buttonIcons = ["fa fa-plus-square-o", "fa fa-times", "fa fa-strikethrough", "fa  fa-check-square-o", "fa fa-square-o", "fa fa-sort"];
     let colorsDiv = document.createElement("div");
     colorsDiv.id = "colorsDiv";
     
@@ -11,11 +12,24 @@ function init() {
     }
 
     
-    let node = document.createElement("textarea");
-    node.className = "textArea";
+    let node = document.createElement("input");
+    node.type = "text";
+    node.className = "textBox";
     node.placeholder = "Introduce aqui el nuevo plato...";
-    node.rows = 1;
-    node.cols = 100;
     document.getElementById("mainContainer").appendChild(colorsDiv);
     document.getElementById("mainContainer").appendChild(node);
+
+    node = document.createElement("div");
+    node.id = "buttonsDiv";
+
+    for(let i = 0; i < buttonIcons.length; i++){
+        let icon = document.createElement("i");
+        icon.className = buttonIcons[i];
+        icon.className += " button";
+        node.appendChild(icon);
+    }
+
+    document.getElementById("mainContainer").appendChild(node);
+    
 }
+

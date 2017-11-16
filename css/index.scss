@@ -25,7 +25,7 @@ p{
     background-color: rgb(77, 108, 122);
 }
 
-.textArea{
+.textBox{
     margin-left: 10%;
     width: 80%;
     font-size: 200%;
@@ -51,10 +51,33 @@ p{
     border: thin solid black;
     border-radius: 8px;
     width: 2%;
-    height: 89%;
+    height: 85%;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 .selectedColor{
     border: thick solid black;
+}
+
+#buttonsDiv{
+    display: flex;
+    width: 25%;
+    height: 25px;
+    background-color: white;
+    border-radius: 5px;
+    margin-top: 1%;
+    margin-left: 37.5%;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+.button{
+    height: 98%;
+    margin-top: 1%;
+    cursor: pointer;
+}
+
+.button:nth-child(n+2){
+    margin-left: 5%;
 }
