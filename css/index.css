@@ -103,6 +103,7 @@ p {
   padding-left: 1%;
   margin-bottom: 0.5%;
   border: solid thin black;
+  border-radius: 20px;
 }
 
 .dish > input {
