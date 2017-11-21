@@ -3,10 +3,11 @@ let selectedColor;
 //
 function init() {
     const colors = ["#3c56aa", "red", "pink", "yellow"];
-    const buttonIcons = ["fa fa-plus-square-o", "fa fa-times", "fa fa-strikethrough", "fa  fa-check-square-o", "fa fa-square-o", "fa fa-sort"];
+    const buttonIcons = ["fa fa-plus-square-o", "fa fa-times", "fa fa-strikethrough", "fa fa-check-square-o", "fa fa-square-o", "fa fa-sort"];
     const colorsDiv = document.createElement("div");
     colorsDiv.id = "colorsDiv";
 
+    //colors
     for (let i = 0; i < colors.length; i++) {
         const color = document.createElement("div");
         color.className = "color";
@@ -18,6 +19,7 @@ function init() {
         } 
     }
 
+    //textbox
     let node = document.createElement("input");
     node.type = "text";
     node.className = "textBox";
@@ -25,6 +27,7 @@ function init() {
     document.getElementById("mainContainer").appendChild(colorsDiv);
     document.getElementById("mainContainer").appendChild(node);
 
+    //buttons
     node = document.createElement("div");
     node.id = "buttonsDiv";
 
@@ -37,11 +40,12 @@ function init() {
 
     document.getElementById("mainContainer").appendChild(node);
     
-    initListeners();
     loadMenu();
+    initListeners();
 }
 
 function initListeners() {
+    //colors picker listener
     let colors = [].slice.call(document.querySelectorAll(".color"));
     colors.map(e => e.addEventListener("click", function(){
         selectedColor.className = "color";
@@ -49,7 +53,8 @@ function initListeners() {
         selectedColor.className = "color selectedColor";
     }, false));
 
-    let aux = document.querySelector(".textBox").addEventListener("keypress", function(e){
+    //textbox listener 
+    let tb = document.querySelector(".textBox").addEventListener("keypress", function(e){
         //var key = e.wich || e.keycode;
         if(e.key === 'Enter'){
             addDish(this.value);
@@ -58,6 +63,12 @@ function initListeners() {
         }
     }, false);
     
+    //buttons listeners//
+    let buttons = document.querySelectorAll(".button");
+    //checkAll
+    buttons[3].addEventListener("click", checkAll, false);
+    //uncheckAll
+    buttons[4].addEventListener("click", unCheckAll, false);
 }
 
 function loadMenu(){
@@ -90,3 +101,16 @@ function addDish(name){
     document.getElementById("menu").appendChild(dish);
 }
 
+function checkAll(){
+    let checkboxes = document.querySelectorAll(".dish > input");
+    for(let i = 0; i < checkboxes.length; i++){
+        checkboxes[i].checked = true;
+    }
+}
+
+function unCheckAll(){
+    let checkboxes = document.querySelectorAll(".dish > input");
+    for(let i = 0; i < checkboxes.length; i++){
+        checkboxes[i].checked = false;
+    }
+}
