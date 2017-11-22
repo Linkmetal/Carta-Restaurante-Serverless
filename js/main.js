@@ -1,8 +1,9 @@
-// global variables
+// global variables //
 let selectedColor;
 let dishesStorage = [];
 const colors = ["#3c56aa", "red", "pink", "yellow"];
-//
+///////////////////////
+
 function init() {
     const buttonIcons = ["fa fa-plus-square-o", "fa fa-times", "fa fa-font", "fa fa-strikethrough", "fa fa-check-square-o", "fa fa-square-o", "fa fa-sort"];
     const colorsDiv = document.createElement("div");
@@ -224,21 +225,42 @@ function rgbToHex(rgb) {
 }
 
 function removeDishes(){
-    let menu = document.getElementById("menu");
-    let dishes = [];
-    let checkboxes = getChecked();
+    if(confirm("¿Desea borrar los elementos seleccionados?")){
+        let menu = document.getElementById("menu");
+        let dishes = [];
+        let names = [];
+        let checkboxes = getChecked();
+        
+    
+        for(let i = 0; i < checkboxes.length; i++){
+            dishes.push(checkboxes[i].parentElement);
+            names.push(checkboxes[i].nextSibling)
+            menu.removeChild(dishes[i]);
+        }
 
-    for(let i = 0; i < checkboxes.length; i++){
-        dishes.push(checkboxes[i].parentElement);
-        menu.removeChild(dishes[i]);
-    }   
+        let i = 0, j = 0;
+        while(j < names.length){
+            if(dishesStorage[i]._name === names[j].textContent){
+                dishesStorage.splice(i, 1);
+                j++;
+            }
+            else{
+                i++;
+            }
+        }
+        saveLS();
+
+    }
+    //remove from LS when remove a dish
 }
 
-function saveLS(){
+function saveLS(){//save in localStorage
     aux = JSON.stringify(dishesStorage);
     localStorage.setItem("dishes", aux);
 }
 
-function loadLS(){
-    dishesStorage = JSON.parse(localStorage.getItem("dishes"));
+function loadLS(){//loads from localStorage
+    if(localStorage.getItem("dishes") != null){
+        dishesStorage = JSON.parse(localStorage.getItem("dishes"));
+    }
 }
