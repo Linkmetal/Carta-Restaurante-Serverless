@@ -1,6 +1,11 @@
+@font-face {
+    font-family: mono-droid;
+    src: url(../fonts/DroidSansMono.ttf);
+}
+
 *{
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: mono-droid;
 }
 
 html, body{
@@ -115,3 +120,4 @@ p{
     font-size: 200%;
     margin-left: 1%;
 }
+

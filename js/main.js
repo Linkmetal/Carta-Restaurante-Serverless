@@ -3,7 +3,7 @@ let selectedColor;
 //
 function init() {
     const colors = ["#3c56aa", "red", "pink", "yellow"];
-    const buttonIcons = ["fa fa-plus-square-o", "fa fa-times", "fa fa-strikethrough", "fa fa-check-square-o", "fa fa-square-o", "fa fa-sort"];
+    const buttonIcons = ["fa fa-plus-square-o", "fa fa-times", "fa fa-font", "fa fa-strikethrough", "fa fa-check-square-o", "fa fa-square-o", "fa fa-sort"];
     const colorsDiv = document.createElement("div");
     colorsDiv.id = "colorsDiv";
 
@@ -23,6 +23,7 @@ function init() {
     let node = document.createElement("input");
     node.type = "text";
     node.className = "textBox";
+    node.maxLength = 72;
     node.placeholder = "Introduce aqui el nuevo plato...";
     document.getElementById("mainContainer").appendChild(colorsDiv);
     document.getElementById("mainContainer").appendChild(node);
@@ -65,10 +66,18 @@ function initListeners() {
     
     //buttons listeners//
     let buttons = document.querySelectorAll(".button");
+    //addDish
+    buttons[0].addEventListener("click", function(){
+        addDish(document.querySelector(".textBox").value);
+    }, false);   
+    //unLineThrough
+    buttons[2].addEventListener("click", unLineThrough, false);    
+    //lineThrough
+    buttons[3].addEventListener("click", lineThrough, false);
     //checkAll
-    buttons[3].addEventListener("click", checkAll, false);
+    buttons[4].addEventListener("click", checkAll, false);
     //uncheckAll
-    buttons[4].addEventListener("click", unCheckAll, false);
+    buttons[5].addEventListener("click", unCheckAll, false);
 }
 
 function loadMenu(){
@@ -112,5 +121,34 @@ function unCheckAll(){
     let checkboxes = document.querySelectorAll(".dish > input");
     for(let i = 0; i < checkboxes.length; i++){
         checkboxes[i].checked = false;
+    }
+}
+
+function getChecked(){
+    let checkboxes = document.querySelectorAll(".dish > input");
+    let checked = [];
+
+    for(let i = 0; i < checkboxes.length; i++){
+        if(checkboxes[i].checked == true){
+            checked.push(checkboxes[i]);
+        }
+    }
+
+    return checked;
+}
+
+function lineThrough(){
+    let checkboxes = getChecked();
+
+    for(let i = 0; i < checkboxes.length; i++){
+        checkboxes[i].nextSibling.style.textDecoration = "line-through";
+    }
+}
+
+function unLineThrough(){
+    let checkboxes = getChecked();
+
+    for(let i = 0; i < checkboxes.length; i++){
+        checkboxes[i].nextSibling.style.textDecoration = "none";
     }
 }
