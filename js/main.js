@@ -89,8 +89,31 @@ function loadMenu(){
     let menu = document.createElement("div");
     menu.id = "menu";
     document.getElementById("mainContainer").appendChild(menu);
+    loadLS();
+    for(let i = 0; i < dishesStorage.length; i++){
+        loadDish(dishesStorage[i]);
+    }
+    sortDishes();
+}
 
-    //load stuff goes here
+function loadDish(_dish){
+    //HTML
+    let dish = document.createElement("div");
+    dish.className = "dish";
+    dish.style.backgroundColor = _dish._color;
+    
+    let check = document.createElement("input");
+    check.type = "checkbox";
+    check.name = "menuDishes";
+    
+    let text = document.createElement("span");
+    text.className = "dishName";
+    text.textContent = _dish._name;
+    
+    dish.appendChild(check);
+    dish.appendChild(text);
+    
+    document.getElementById("menu").appendChild(dish);
 }
 
 function addDish(name){
@@ -108,6 +131,7 @@ function addDish(name){
         let dish = document.createElement("div");
         dish.className = "dish";
         dish.style.backgroundColor = selectedColor.style.backgroundColor;
+        dish.style.order = 50;
         
         let check = document.createElement("input");
         check.type = "checkbox";
@@ -216,5 +240,5 @@ function saveLS(){
 }
 
 function loadLS(){
-    var dishesStorage = JSON.parse(localStorage.getItem("dishes"));
+    dishesStorage = JSON.parse(localStorage.getItem("dishes"));
 }
