@@ -1,7 +1,9 @@
-// global variables
+// global variables //
 let selectedColor;
+let dishesStorage = [];
 const colors = ["#3c56aa", "red", "pink", "yellow"];
-//
+///////////////////////
+
 function init() {
     const buttonIcons = ["fa fa-plus-square-o", "fa fa-times", "fa fa-font", "fa fa-strikethrough", "fa fa-check-square-o", "fa fa-square-o", "fa fa-sort"];
     const colorsDiv = document.createElement("div");
@@ -46,7 +48,7 @@ function init() {
 }
 
 function initListeners() {
-    //colors picker listener
+    //color picker listener
     let colors = [].slice.call(document.querySelectorAll(".color"));
     colors.map(e => e.addEventListener("click", function(){
         selectedColor.className = "color";
@@ -56,7 +58,6 @@ function initListeners() {
 
     //textbox listener 
     let tb = document.querySelector(".textBox").addEventListener("keypress", function(e){
-        //var key = e.wich || e.keycode;
         if(e.key === 'Enter'){
             addDish(this.value);
             var menu = document.getElementById("menu");
@@ -88,19 +89,50 @@ function initListeners() {
 function loadMenu(){
     let menu = document.createElement("div");
     menu.id = "menu";
-
     document.getElementById("mainContainer").appendChild(menu);
-    addDish("nfoiwnqiof");
-    addDish("jfopwqnpofw");
+    loadLS();
+    for(let i = 0; i < dishesStorage.length; i++){
+        loadDish(dishesStorage[i]);
+    }
+    sortDishes();
+}
+
+function loadDish(_dish){
+    //HTML
+    let dish = document.createElement("div");
+    dish.className = "dish";
+    dish.style.backgroundColor = _dish._color;
     
+    let check = document.createElement("input");
+    check.type = "checkbox";
+    check.name = "menuDishes";
+    
+    let text = document.createElement("span");
+    text.className = "dishName";
+    text.textContent = _dish._name;
+    
+    dish.appendChild(check);
+    dish.appendChild(text);
+    
+    document.getElementById("menu").appendChild(dish);
 }
 
 function addDish(name){
     if(name != ""){
+        //localStorage
+        let dishObj = {
+            _name: name,
+            _color: selectedColor.style.backgroundColor,
+        }
+        dishesStorage.push(dishObj);
+        saveLS();
+        loadLS();
+
+        //HTML
         let dish = document.createElement("div");
         dish.className = "dish";
-        //dish.textContent = "Papas con mojo";
         dish.style.backgroundColor = selectedColor.style.backgroundColor;
+        dish.style.order = 50;
         
         let check = document.createElement("input");
         check.type = "checkbox";
@@ -193,12 +225,42 @@ function rgbToHex(rgb) {
 }
 
 function removeDishes(){
-    let menu = document.getElementById("menu");
-    let dishes = [];
-    let checkboxes = getChecked();
+    if(confirm("¿Desea borrar los elementos seleccionados?")){
+        let menu = document.getElementById("menu");
+        let dishes = [];
+        let names = [];
+        let checkboxes = getChecked();
+        
+    
+        for(let i = 0; i < checkboxes.length; i++){
+            dishes.push(checkboxes[i].parentElement);
+            names.push(checkboxes[i].nextSibling)
+            menu.removeChild(dishes[i]);
+        }
 
-    for(let i = 0; i < checkboxes.length; i++){
-        dishes.push(checkboxes[i].parentElement);
-        menu.removeChild(dishes[i]);
-    }   
+        let i = 0, j = 0;
+        while(j < names.length){
+            if(dishesStorage[i]._name === names[j].textContent){
+                dishesStorage.splice(i, 1);
+                j++;
+            }
+            else{
+                i++;
+            }
+        }
+        saveLS();
+
+    }
+    //remove from LS when remove a dish
+}
+
+function saveLS(){//save in localStorage
+    aux = JSON.stringify(dishesStorage);
+    localStorage.setItem("dishes", aux);
+}
+
+function loadLS(){//loads from localStorage
+    if(localStorage.getItem("dishes") != null){
+        dishesStorage = JSON.parse(localStorage.getItem("dishes"));
+    }
 }
