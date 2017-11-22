@@ -71,6 +71,8 @@ function initListeners() {
         addDish(document.querySelector(".textBox").value);
         document.querySelector(".textBox").value = "";
     }, false);   
+    //removeDishes
+    buttons[1].addEventListener("click", removeDishes, false);
     //unLineThrough
     buttons[2].addEventListener("click", unLineThrough, false);    
     //lineThrough
@@ -188,4 +190,15 @@ function rgbToHex(rgb) {
         hex = "#" + (0x1000000 + (r << 16) + (g << 8) + b).toString(16).slice(1);
     }
     return hex;
+}
+
+function removeDishes(){
+    let menu = document.getElementById("menu");
+    let dishes = [];
+    let checkboxes = getChecked();
+
+    for(let i = 0; i < checkboxes.length; i++){
+        dishes.push(checkboxes[i].parentElement);
+        menu.removeChild(dishes[i]);
+    }   
 }
