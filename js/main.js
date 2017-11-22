@@ -1,5 +1,6 @@
 // global variables
 let selectedColor;
+let dishesStorage = [];
 const colors = ["#3c56aa", "red", "pink", "yellow"];
 //
 function init() {
@@ -46,7 +47,7 @@ function init() {
 }
 
 function initListeners() {
-    //colors picker listener
+    //color picker listener
     let colors = [].slice.call(document.querySelectorAll(".color"));
     colors.map(e => e.addEventListener("click", function(){
         selectedColor.className = "color";
@@ -56,7 +57,6 @@ function initListeners() {
 
     //textbox listener 
     let tb = document.querySelector(".textBox").addEventListener("keypress", function(e){
-        //var key = e.wich || e.keycode;
         if(e.key === 'Enter'){
             addDish(this.value);
             var menu = document.getElementById("menu");
@@ -88,18 +88,25 @@ function initListeners() {
 function loadMenu(){
     let menu = document.createElement("div");
     menu.id = "menu";
-
     document.getElementById("mainContainer").appendChild(menu);
-    addDish("nfoiwnqiof");
-    addDish("jfopwqnpofw");
-    
+
+    //load stuff goes here
 }
 
 function addDish(name){
     if(name != ""){
+        //localStorage
+        let dishObj = {
+            _name: name,
+            _color: selectedColor.style.backgroundColor,
+        }
+        dishesStorage.push(dishObj);
+        saveLS();
+        loadLS();
+
+        //HTML
         let dish = document.createElement("div");
         dish.className = "dish";
-        //dish.textContent = "Papas con mojo";
         dish.style.backgroundColor = selectedColor.style.backgroundColor;
         
         let check = document.createElement("input");
@@ -201,4 +208,13 @@ function removeDishes(){
         dishes.push(checkboxes[i].parentElement);
         menu.removeChild(dishes[i]);
     }   
+}
+
+function saveLS(){
+    aux = JSON.stringify(dishesStorage);
+    localStorage.setItem("dishes", aux);
+}
+
+function loadLS(){
+    var dishesStorage = JSON.parse(localStorage.getItem("dishes"));
 }
