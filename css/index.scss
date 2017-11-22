@@ -1,6 +1,11 @@
+@font-face {
+    font-family: mono-droid;
+    src: url(../fonts/DroidSansMono.ttf);
+}
+
 *{
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: mono-droid;
 }
 
 html, body{
@@ -34,10 +39,9 @@ p{
     border-radius: 20px;
     border: solid thin grey;
     border: solid thin #3c56aa;
-    
 }
 
-.textArea:focus{
+.textBox:focus{
     outline: none;
 }
 
@@ -116,3 +120,4 @@ p{
     font-size: 200%;
     margin-left: 1%;
 }
+
