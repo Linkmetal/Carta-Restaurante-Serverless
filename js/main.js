@@ -1,8 +1,8 @@
 // global variables
 let selectedColor;
+const colors = ["#3c56aa", "red", "pink", "yellow"];
 //
 function init() {
-    const colors = ["#3c56aa", "red", "pink", "yellow"];
     const buttonIcons = ["fa fa-plus-square-o", "fa fa-times", "fa fa-font", "fa fa-strikethrough", "fa fa-check-square-o", "fa fa-square-o", "fa fa-sort"];
     const colorsDiv = document.createElement("div");
     colorsDiv.id = "colorsDiv";
@@ -69,6 +69,7 @@ function initListeners() {
     //addDish
     buttons[0].addEventListener("click", function(){
         addDish(document.querySelector(".textBox").value);
+        document.querySelector(".textBox").value = "";
     }, false);   
     //unLineThrough
     buttons[2].addEventListener("click", unLineThrough, false);    
@@ -78,6 +79,8 @@ function initListeners() {
     buttons[4].addEventListener("click", checkAll, false);
     //uncheckAll
     buttons[5].addEventListener("click", unCheckAll, false);
+    //sortDishes
+    buttons[6].addEventListener("click", sortDishes, false);
 }
 
 function loadMenu(){
@@ -91,23 +94,25 @@ function loadMenu(){
 }
 
 function addDish(name){
-    let dish = document.createElement("div");
-    dish.className = "dish";
-    //dish.textContent = "Papas con mojo";
-    dish.style.backgroundColor = selectedColor.style.backgroundColor;
-    
-    let check = document.createElement("input");
-    check.type = "checkbox";
-    check.name = "menuDishes";
-    
-    let text = document.createElement("span");
-    text.className = "dishName";
-    text.textContent = name;
-    
-    dish.appendChild(check);
-    dish.appendChild(text);
-    
-    document.getElementById("menu").appendChild(dish);
+    if(name != ""){
+        let dish = document.createElement("div");
+        dish.className = "dish";
+        //dish.textContent = "Papas con mojo";
+        dish.style.backgroundColor = selectedColor.style.backgroundColor;
+        
+        let check = document.createElement("input");
+        check.type = "checkbox";
+        check.name = "menuDishes";
+        
+        let text = document.createElement("span");
+        text.className = "dishName";
+        text.textContent = name;
+        
+        dish.appendChild(check);
+        dish.appendChild(text);
+        
+        document.getElementById("menu").appendChild(dish);
+    }
 }
 
 function checkAll(){
@@ -151,4 +156,36 @@ function unLineThrough(){
     for(let i = 0; i < checkboxes.length; i++){
         checkboxes[i].nextSibling.style.textDecoration = "none";
     }
+}
+
+function sortDishes(){
+    let dishes = document.querySelectorAll(".dish");
+
+    for(let i = 0; i < dishes.length; i++){
+        let color = dishes[i].style.backgroundColor;
+        if(color.indexOf("rgb(") != -1){
+            color = rgbToHex(color);
+        }
+        let order = colors.indexOf(color);
+        dishes[i].style.order = order;
+    }
+}
+
+function componentFromStr(numStr, percent) {
+    var num = Math.max(0, parseInt(numStr, 10));
+    return percent ?
+        Math.floor(255 * Math.min(100, num) / 100) : Math.min(255, num);
+}
+
+function rgbToHex(rgb) {
+    var rgbRegex = /^rgb\(\s*(-?\d+)(%?)\s*,\s*(-?\d+)(%?)\s*,\s*(-?\d+)(%?)\s*\)$/;
+    var result, r, g, b, hex = "";
+    if ( (result = rgbRegex.exec(rgb)) ) {
+        r = componentFromStr(result[1], result[2]);
+        g = componentFromStr(result[3], result[4]);
+        b = componentFromStr(result[5], result[6]);
+
+        hex = "#" + (0x1000000 + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+    return hex;
 }
